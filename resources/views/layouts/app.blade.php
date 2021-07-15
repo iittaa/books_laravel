@@ -18,12 +18,16 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset("css/layout.css") }}" rel="stylesheet">
+    <link href="{{ asset("css/utility.css") }}" rel="stylesheet">
+    @yield("css")
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
+                    <img class='navbar-logo' src="{{ asset('images/logo.png') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -41,6 +45,9 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route("create") }}">レビューを書く</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             @if (Route::has('register'))
@@ -49,6 +56,9 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                    <a class="nav-link" href="{{ route("create") }}">レビューを書く</a>
+                                </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -72,9 +82,17 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="container">
+            @if (session("flash_message"))
+                <div class="flash_message bg-success text-center py-3 my-0 mb30">
+                    {{ session("flash_message") }}
+                </div>
+            @endif
             @yield('content')
         </main>
+        <footer class="footer p20">
+            <small class='copyright'>Laravel Book Reviews 2019 copyright</small>
+        </footer>
     </div>
 </body>
 </html>
